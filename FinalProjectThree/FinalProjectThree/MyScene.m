@@ -80,10 +80,19 @@
 
 -(void)pan:(UIPanGestureRecognizer*)recognizer{
     CGPoint point = [recognizer translationInView:_swipeView];
-    [_node setPosition:CGPointMake(_node.position.x + (point.x*.25), _node.position.y - (point.y*.25))];
-    
-    if(_node.position.x > nodeheight) {
-        [_node setPosition:CGPointMake(_node.position.x,nodeheight)];
+    CGPoint next = CGPointMake(_node.position.x + (point.x * 25), _node.position.y - (point.y * .25));
+    int nextx = next.x;
+    int nexty = next.y;
+    if(nextx > 0) {
+        [_node setPosition:CGPointMake(0, _node.position.y)];
+    } else if (nextx < -(nodewidth*.5)) {
+        [_node setPosition:CGPointMake(-(nodewidth*.5), _node.position.y)];
+    } else if(nexty < nodeheight) {
+        [_node setPosition:CGPointMake(_node.position.x, nodeheight)];
+    } else if (nexty > nodeheight * 1.5) {
+        [_node setPosition:CGPointMake(_node.position.x, nodeheight*1.5)];
+    } else {
+        [_node setPosition:CGPointMake(_node.position.x + (point.x*.25), _node.position.y - (point.y*.25))];
     }
 }
 
