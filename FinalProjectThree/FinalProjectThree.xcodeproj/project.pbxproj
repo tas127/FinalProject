@@ -15,7 +15,6 @@
 		3F3540C519586CD400DFA7C5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F3540C419586CD400DFA7C5 /* main.m */; };
 		3F3540C919586CD400DFA7C5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F3540C819586CD400DFA7C5 /* AppDelegate.m */; };
 		3F3540CC19586CD400DFA7C5 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F3540CA19586CD400DFA7C5 /* Main_iPhone.storyboard */; };
-		3F3540CF19586CD400DFA7C5 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F3540CD19586CD400DFA7C5 /* Main_iPad.storyboard */; };
 		3F3540D219586CD400DFA7C5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F3540D119586CD400DFA7C5 /* ViewController.m */; };
 		3F3540D519586CD400DFA7C5 /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F3540D419586CD400DFA7C5 /* MyScene.m */; };
 		3F3540D719586CD400DFA7C5 /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F3540D619586CD400DFA7C5 /* Spaceship.png */; };
@@ -50,7 +49,6 @@
 		3F3540C719586CD400DFA7C5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3F3540C819586CD400DFA7C5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3F3540CB19586CD400DFA7C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		3F3540CE19586CD400DFA7C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		3F3540D019586CD400DFA7C5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		3F3540D119586CD400DFA7C5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		3F3540D319586CD400DFA7C5 /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
@@ -126,7 +124,6 @@
 				3F3540C719586CD400DFA7C5 /* AppDelegate.h */,
 				3F3540C819586CD400DFA7C5 /* AppDelegate.m */,
 				3F3540CA19586CD400DFA7C5 /* Main_iPhone.storyboard */,
-				3F3540CD19586CD400DFA7C5 /* Main_iPad.storyboard */,
 				3F3540D019586CD400DFA7C5 /* ViewController.h */,
 				3F3540D119586CD400DFA7C5 /* ViewController.m */,
 				3F3540D319586CD400DFA7C5 /* MyScene.h */,
@@ -245,7 +242,6 @@
 			files = (
 				3F3540D719586CD400DFA7C5 /* Spaceship.png in Resources */,
 				3F3540D919586CD400DFA7C5 /* Images.xcassets in Resources */,
-				3F3540CF19586CD400DFA7C5 /* Main_iPad.storyboard in Resources */,
 				3F3540CC19586CD400DFA7C5 /* Main_iPhone.storyboard in Resources */,
 				3F3540C319586CD400DFA7C5 /* InfoPlist.strings in Resources */,
 			);
@@ -306,14 +302,6 @@
 				3F3540CB19586CD400DFA7C5 /* Base */,
 			);
 			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		3F3540CD19586CD400DFA7C5 /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3F3540CE19586CD400DFA7C5 /* Base */,
-			);
-			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		3F3540E819586CD400DFA7C5 /* InfoPlist.strings */ = {
@@ -409,6 +397,7 @@
 				INFOPLIST_FILE = "FinalProjectThree/FinalProjectThree-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -423,6 +412,7 @@
 				INFOPLIST_FILE = "FinalProjectThree/FinalProjectThree-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -486,6 +476,7 @@
 				3F3540F119586CD400DFA7C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3F3540F219586CD400DFA7C5 /* Build configuration list for PBXNativeTarget "FinalProjectThreeTests" */ = {
 			isa = XCConfigurationList;
@@ -494,6 +485,7 @@
 				3F3540F419586CD400DFA7C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
