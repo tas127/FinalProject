@@ -12,8 +12,12 @@
 
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+        
         //initialize all instance variables
-        self.money = 0;
+        self.money = NSIntegerMax;
+        buildmenuup = NO;
+        workermenuup = NO;
         
         [self setUpNode];
         
@@ -21,9 +25,28 @@
         
         [self setUpSeenGrid];
         
+        [self setUpBottomBar];
+        
+        _gameClock = [NSTimer timerWithTimeInterval:120.0 target:self selector:@selector(resetDay) userInfo:nil repeats:YES];
+        
+        _moneyLabel = [[SKLabelNode alloc] init];
+        [_moneyLabel setText: [NSString stringWithFormat:@"$%ld", (long) self.money]];
+        [_moneyLabel setFontSize:30];
+        [_moneyLabel setFontColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:1.0]];
+        [_moneyLabel setZPosition:5.0];
+        [_moneyLabel setPosition:CGPointMake(93,50)];
+        //[_moneyLabel setHidden:YES];
+        [self addChild:_moneyLabel];
+        
         userDefaults = [NSUserDefaults standardUserDefaults];
-
+        
         bool tut = [userDefaults boolForKey:@"tutorial"];
+        
+        SKTexture *texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicRight"]];
+        [[[_gridNodes objectAtIndex:9] objectAtIndex:0] setTexture:texture];
+        
+        buildings = [[NSMutableArray alloc] init];
+        workers = [[NSMutableArray alloc] init];
         
         /*
         if(!tut) {
@@ -38,18 +61,6 @@
         //possibly editable later???
         self.backgroundColor = [SKColor colorWithRed:1 green:1 blue:1 alpha:1.0];
         
-        /*
-         Save this at least for reference later when making labels for the screen:
-         
-        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-        
-        myLabel.text = @"Hello, World!";
-        myLabel.fontSize = 30;
-        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-                                       CGRectGetMidY(self.frame));
-        
-        [self addChild:myLabel];
-         */
     }
     return self;
 }
@@ -59,41 +70,26 @@
 - (void)didMoveToView:(SKView *)view{
     _swipeView = [[UIView alloc] initWithFrame:CGRectMake(0,0,nodewidth,nodeheight)];
     
-    //_swipeView.center = CGPointMake(_node.position.x + (_node.frame.size.width*.5), _node.position.y + (_node.frame.size.height * .5));
-    
-    
-    
     [_swipeView setUserInteractionEnabled:YES];
     
     UIPanGestureRecognizer *tap = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(pan:)];
     [_swipeView addGestureRecognizer:tap];
     [self.view addSubview:_swipeView];
-   /* UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
-    [_swipeView addGestureRecognizer:pan];
-    [view addSubview:_swipeView];*/
 }
-
--(void)tapScreen{
-    NSLog(@"HIIII");
-}
-
 
 -(void)pan:(UIPanGestureRecognizer*)recognizer{
     CGPoint point = [recognizer translationInView:_swipeView];
-    CGPoint next = CGPointMake(_node.position.x + (point.x * 25), _node.position.y - (point.y * .25));
-    int nextx = next.x;
-    int nexty = next.y;
-    if(nextx > 0) {
-        [_node setPosition:CGPointMake(0, _node.position.y)];
-    } else if (nextx < -(nodewidth*.5)) {
-        [_node setPosition:CGPointMake(-(nodewidth*.5), _node.position.y)];
-    } else if(nexty < nodeheight) {
-        [_node setPosition:CGPointMake(_node.position.x, nodeheight)];
-    } else if (nexty > nodeheight * 1.5) {
-        [_node setPosition:CGPointMake(_node.position.x, nodeheight*1.5)];
-    } else {
-        [_node setPosition:CGPointMake(_node.position.x + (point.x*.25), _node.position.y - (point.y*.25))];
+    CGPoint next = CGPointMake(_node.position.x + (point.x * 0.1), _node.position.y - (point.y * 0.1));
+    float nextx = next.x;
+    float nexty = 0;
+    
+    if(nextx > 0){
+        nextx = 0;
+    }else if(nextx < -(nodewidth - self.view.frame.size.width)){
+        nextx = -(nodewidth - self.view.frame.size.width);
     }
+    
+    [_node setPosition:CGPointMake(nextx, nexty)];
 }
 
 
@@ -106,21 +102,25 @@
     */
     
     for (UITouch *touch in touches) {
-        //[_node setPosition:CGPointMake(_node.position.x-10, _node.position.y)];
-        /*
-         Keep for Reference
-         
+        
         CGPoint location = [touch locationInNode:self];
         
-        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
+        if(CGRectContainsPoint(self.workerButton.frame, location)) {
+            workermenuup = YES;
+            [self displayTableView];
+        } else if(CGRectContainsPoint(self.buildButton.frame, location)) {
+            buildmenuup = YES;
+            [self displayTableView];
+        } else if (CGRectContainsPoint(self.view.frame, location)) {
+            if(workermenuup) {
+                [self.tableView removeFromSuperview];
+                workermenuup = NO;
+            } else if (buildmenuup) {
+                [self.buildView removeFromSuperview];
+                buildmenuup = NO;
+            }
+        }
         
-        sprite.position = location;
-        
-        SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
-        
-        [sprite runAction:[SKAction repeatActionForever:action]];
-        
-        [self addChild:sprite];*/
         
     }
 }
@@ -192,7 +192,23 @@
     for(int i = 0; i < 10; i ++) {
         [self.gridNodes insertObject:[[NSMutableArray alloc] init]  atIndex:i];
         for(int k = 0; k < 10; k ++) {
-            SKSpriteNode *node = [SKSpriteNode spriteNodeWithImageNamed:@"Grass"];
+            int randnum = arc4random() % 4;
+            SKSpriteNode *node;
+            switch(randnum) {
+                case 0:
+                    node = [SKSpriteNode spriteNodeWithImageNamed:@"Grass"];
+                    break;
+                case 1:
+                    node = [SKSpriteNode spriteNodeWithImageNamed:@"Grass2"];
+                    break;
+                case 2:
+                    node = [SKSpriteNode spriteNodeWithImageNamed:@"Grass3"];
+                    break;
+                case 3:
+                    node = [SKSpriteNode spriteNodeWithImageNamed:@"Grass4"];
+                    break;
+            }
+            
             [[self.gridNodes objectAtIndex:i] addObject:node];
         }
     }
@@ -250,13 +266,48 @@
     // Set up the bottom bar //
     ///////////////////////////
     
-    [self.bottomBar setPosition:CGPointMake(0, self.node.frame.size.height)];
+    [self.bottomBar setPosition:CGPointMake(0, 0)];
     [self addChild: _bottomBar];
+    [self.bottomBar setZPosition:2.0];
     
-    int xpos = _bottomBar.frame.size.width - (1.5 * _workerButton.frame.size.width);
-    int ypos = _workerButton.frame.size.height * .5;
-    [self.workerButton setPosition:CGPointMake(xpos, ypos)];
+    //set up the button to pull up the hire workers menu
+    
+    int screenwidth = self.frame.size.width;
+    int xpos = screenwidth-20;
+    int ypos = 45;
+    [_workerButton setScale:.25];
+    [_workerButton setZPosition:3.0];
+    [self.workerButton setPosition:CGPointMake(xpos,ypos)];
     [_bottomBar addChild:_workerButton];
+    
+    //set up the button to pull up the build menu
+    xpos -= 60;
+    [_buildButton setScale:.25];
+    [_buildButton setZPosition:3.0];
+    [_buildButton setPosition:CGPointMake(xpos, ypos)];
+    [_bottomBar addChild:_buildButton];
+    
+    ////////////////////////////////
+    // End Setting up bottom bar //
+    //////////////////////////////
+}
+
+- (void) displayTableView {
+    
+    if(workermenuup) { //display the cells for the worker menu
+        _tableView = [[WorkerView alloc] initWithFrame:CGRectMake(25, 25, self.view.frame.size.width - 50, self.view.frame.size.height - 50)]; //set up a table so that it spawns in the middle of the screen
+        //(210,180,140)
+        [_tableView setBackgroundColor:[UIColor colorWithRed:(210.0/255.0) green:(180.0/255.0) blue:(140.0/255.0) alpha:1.0]];
+        
+        [self.view addSubview:_tableView];
+    } else if (buildmenuup) { //display the cells for the build menu
+        _buildView = [[BuildView alloc] initWithFrame:CGRectMake(25, 25, self.view.frame.size.width-50, self.view.frame.size.height-50)];
+        [_buildView setBackgroundColor:[UIColor colorWithRed:(210.0/255.0) green:(180.0/255.0) blue:(140.0/255.0) alpha:1.0]];
+        [self.view addSubview:_buildView];
+    }
+}
+
+- (void) resetDay {
     
 }
 

@@ -17,13 +17,19 @@
 		3F3540CC19586CD400DFA7C5 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F3540CA19586CD400DFA7C5 /* Main_iPhone.storyboard */; };
 		3F3540D219586CD400DFA7C5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F3540D119586CD400DFA7C5 /* ViewController.m */; };
 		3F3540D519586CD400DFA7C5 /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F3540D419586CD400DFA7C5 /* MyScene.m */; };
-		3F3540D719586CD400DFA7C5 /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F3540D619586CD400DFA7C5 /* Spaceship.png */; };
 		3F3540D919586CD400DFA7C5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F3540D819586CD400DFA7C5 /* Images.xcassets */; };
 		3F3540E019586CD400DFA7C5 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F3540DF19586CD400DFA7C5 /* XCTest.framework */; };
 		3F3540E119586CD400DFA7C5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F3540B619586CD400DFA7C5 /* Foundation.framework */; };
 		3F3540E219586CD400DFA7C5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F3540BA19586CD400DFA7C5 /* UIKit.framework */; };
 		3F3540EA19586CD400DFA7C5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3F3540E819586CD400DFA7C5 /* InfoPlist.strings */; };
 		3F3540EC19586CD400DFA7C5 /* FinalProjectThreeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F3540EB19586CD400DFA7C5 /* FinalProjectThreeTests.m */; };
+		3FC9D72C1959AF5F00572666 /* WorkerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC9D72B1959AF5F00572666 /* WorkerCell.m */; };
+		3FC9D7641959B7DC00572666 /* Worker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC9D7631959B7DC00572666 /* Worker.m */; };
+		3FC9D7671959BC6A00572666 /* WorkerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC9D7661959BC6A00572666 /* WorkerView.m */; };
+		3FC9D7691959C3FA00572666 /* cell_Iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FC9D7681959C3F900572666 /* cell_Iphone.xib */; };
+		3FC9D76C1959F51900572666 /* BuildView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC9D76B1959F51900572666 /* BuildView.m */; };
+		3FC9D76F1959F5AE00572666 /* BuildCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC9D76E1959F5AE00572666 /* BuildCell.m */; };
+		3FC9D773195A13F600572666 /* Empty.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FC9D772195A13F600572666 /* Empty.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,13 +59,24 @@
 		3F3540D119586CD400DFA7C5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		3F3540D319586CD400DFA7C5 /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
 		3F3540D419586CD400DFA7C5 /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
-		3F3540D619586CD400DFA7C5 /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
 		3F3540D819586CD400DFA7C5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3F3540DE19586CD400DFA7C5 /* FinalProjectThreeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalProjectThreeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F3540DF19586CD400DFA7C5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		3F3540E719586CD400DFA7C5 /* FinalProjectThreeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FinalProjectThreeTests-Info.plist"; sourceTree = "<group>"; };
 		3F3540E919586CD400DFA7C5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3F3540EB19586CD400DFA7C5 /* FinalProjectThreeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FinalProjectThreeTests.m; sourceTree = "<group>"; };
+		3FC9D72A1959AF5F00572666 /* WorkerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkerCell.h; sourceTree = "<group>"; };
+		3FC9D72B1959AF5F00572666 /* WorkerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkerCell.m; sourceTree = "<group>"; };
+		3FC9D7621959B7DC00572666 /* Worker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Worker.h; sourceTree = "<group>"; };
+		3FC9D7631959B7DC00572666 /* Worker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Worker.m; sourceTree = "<group>"; };
+		3FC9D7651959BC6A00572666 /* WorkerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkerView.h; sourceTree = "<group>"; };
+		3FC9D7661959BC6A00572666 /* WorkerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkerView.m; sourceTree = "<group>"; };
+		3FC9D7681959C3F900572666 /* cell_Iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cell_Iphone.xib; sourceTree = "<group>"; };
+		3FC9D76A1959F51900572666 /* BuildView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildView.h; sourceTree = "<group>"; };
+		3FC9D76B1959F51900572666 /* BuildView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildView.m; sourceTree = "<group>"; };
+		3FC9D76D1959F5AE00572666 /* BuildCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildCell.h; sourceTree = "<group>"; };
+		3FC9D76E1959F5AE00572666 /* BuildCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildCell.m; sourceTree = "<group>"; };
+		3FC9D772195A13F600572666 /* Empty.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Empty.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,12 +140,23 @@
 			children = (
 				3F3540C719586CD400DFA7C5 /* AppDelegate.h */,
 				3F3540C819586CD400DFA7C5 /* AppDelegate.m */,
+				3FC9D76D1959F5AE00572666 /* BuildCell.h */,
+				3FC9D76E1959F5AE00572666 /* BuildCell.m */,
+				3FC9D76A1959F51900572666 /* BuildView.h */,
+				3FC9D76B1959F51900572666 /* BuildView.m */,
 				3F3540CA19586CD400DFA7C5 /* Main_iPhone.storyboard */,
 				3F3540D019586CD400DFA7C5 /* ViewController.h */,
 				3F3540D119586CD400DFA7C5 /* ViewController.m */,
 				3F3540D319586CD400DFA7C5 /* MyScene.h */,
 				3F3540D419586CD400DFA7C5 /* MyScene.m */,
-				3F3540D619586CD400DFA7C5 /* Spaceship.png */,
+				3FC9D7621959B7DC00572666 /* Worker.h */,
+				3FC9D7631959B7DC00572666 /* Worker.m */,
+				3FC9D72A1959AF5F00572666 /* WorkerCell.h */,
+				3FC9D72B1959AF5F00572666 /* WorkerCell.m */,
+				3FC9D7651959BC6A00572666 /* WorkerView.h */,
+				3FC9D7661959BC6A00572666 /* WorkerView.m */,
+				3FC9D7681959C3F900572666 /* cell_Iphone.xib */,
+				3FC9D772195A13F600572666 /* Empty.xib */,
 				3F3540D819586CD400DFA7C5 /* Images.xcassets */,
 				3F3540BF19586CD400DFA7C5 /* Supporting Files */,
 			);
@@ -240,10 +268,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F3540D719586CD400DFA7C5 /* Spaceship.png in Resources */,
+				3FC9D773195A13F600572666 /* Empty.xib in Resources */,
 				3F3540D919586CD400DFA7C5 /* Images.xcassets in Resources */,
 				3F3540CC19586CD400DFA7C5 /* Main_iPhone.storyboard in Resources */,
 				3F3540C319586CD400DFA7C5 /* InfoPlist.strings in Resources */,
+				3FC9D7691959C3FA00572666 /* cell_Iphone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,7 +292,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F3540D519586CD400DFA7C5 /* MyScene.m in Sources */,
+				3FC9D76C1959F51900572666 /* BuildView.m in Sources */,
+				3FC9D76F1959F5AE00572666 /* BuildCell.m in Sources */,
+				3FC9D7641959B7DC00572666 /* Worker.m in Sources */,
+				3FC9D72C1959AF5F00572666 /* WorkerCell.m in Sources */,
 				3F3540D219586CD400DFA7C5 /* ViewController.m in Sources */,
+				3FC9D7671959BC6A00572666 /* WorkerView.m in Sources */,
 				3F3540C919586CD400DFA7C5 /* AppDelegate.m in Sources */,
 				3F3540C519586CD400DFA7C5 /* main.m in Sources */,
 			);
