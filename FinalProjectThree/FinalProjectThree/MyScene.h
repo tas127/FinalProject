@@ -14,7 +14,7 @@
 #import "Building.h"
 #import "Worker.h"
 
-@interface MyScene : SKScene <UIGestureRecognizerDelegate>{
+@interface MyScene : SKScene <UIGestureRecognizerDelegate> {
     bool tutorialTime; //tells the game if it is the user's first time playing the game, if not load their current game
     /*
     Will store things such as ... 

@@ -99,9 +99,20 @@
     [_swipeView setUserInteractionEnabled:YES];
     
     UIPanGestureRecognizer *tap = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(pan:)];
+    UIPinchGestureRecognizer *pincher = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
+    
     [_swipeView addGestureRecognizer:tap];
+    [_swipeView addGestureRecognizer:pincher];
     [self.view addSubview:_swipeView];
 }
+
+- (void) pinch:(UIPinchGestureRecognizer*)recognizer{
+    if([recognizer state] == UIGestureRecognizerStateChanged) {
+        [_node setScale:recognizer.scale];
+    }
+}
+
+
 
 -(void)pan:(UIPanGestureRecognizer*)recognizer{
     CGPoint point = [recognizer translationInView:_swipeView];
