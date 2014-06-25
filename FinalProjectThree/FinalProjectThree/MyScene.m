@@ -19,6 +19,10 @@
         buildmenuup = NO;
         workermenuup = NO;
         xisup = NO;
+        scalefactor = 1;
+        
+        buildHallway = NO;
+        buildBasicOffice = NO;
         
         [self setUpNode];
         
@@ -90,9 +94,11 @@
     }
     return self;
 }
+
 -(void)willMoveFromView:(SKView *)view{
     [_swipeView removeFromSuperview];
 }
+
 - (void)didMoveToView:(SKView *)view{
     _swipeView = [[UIView alloc] initWithFrame:CGRectMake(0,0,nodewidth,nodeheight)];
     
@@ -108,8 +114,20 @@
 
 - (void) pinch:(UIPinchGestureRecognizer*)recognizer{
     if([recognizer state] == UIGestureRecognizerStateChanged) {
-        [_node setScale:recognizer.scale];
+        [_node setPosition:CGPointMake(_node.position.x, 0)];
+        [_node setScale:_node.xScale * recognizer.scale];
+        if (_node.xScale < 1) {
+            [_node setScale:1];
+        }
     }
+    if([recognizer state] == UIGestureRecognizerStateEnded) {
+        [_node setPosition:CGPointMake(_node.position.x, 0)];
+    }
+    scalefactor = _node.xScale;
+    if(scalefactor > 20) {
+        [_node setScale:20];
+    }
+    NSLog(@"%f", scalefactor);
 }
 
 
@@ -118,14 +136,19 @@
     CGPoint point = [recognizer translationInView:_swipeView];
     CGPoint next = CGPointMake(_node.position.x + (point.x * 0.1), _node.position.y - (point.y * 0.1));
     float nextx = next.x;
-    float nexty = 0;
+    float nexty = next.y;
     
     if(nextx > 0){
         nextx = 0;
     }else if(nextx < -(nodewidth - self.view.frame.size.width)){
         nextx = -(nodewidth - self.view.frame.size.width);
     }
-    
+    if (nexty > nodeheight - self.view.frame.size.height + (_workerButton.frame.size.height +25)) {
+        nexty = nodeheight - self.view.frame.size.height + (_workerButton.frame.size.height +25);
+    } else if (nexty < 0) {
+        nexty = 0;
+    }
+    NSLog(@"%f, %f", nextx, nexty);
     [_node setPosition:CGPointMake(nextx, nexty)];
 }
 
@@ -141,24 +164,25 @@
     for (UITouch *touch in touches) {
         
         CGPoint location = [touch locationInNode:self];
-        
+        /*
         for(int row = 0; row < [_gridNodes count]; row ++) {
             for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col ++) {
                 NSMutableDictionary *dictionary = [[_grid objectAtIndex:row] objectAtIndex:col];
                 if([[dictionary objectForKey:@"status"] buildType] == BasicOffice) {
                     SKSpriteNode *currentNode = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
-                    if(CGRectContainsPoint([currentNode frame], location)) {
+                    CGPoint point = CGPointMake(location.x - _node.position.x, location.y - _node.position.y);
+                    if(CGRectContainsPoint([currentNode frame], point)) {
                         if(CGRectContainsPoint(CGRectMake(37*col + 5, 37 * row + 4, 17, 13), location)) {
                             Worker *worker = [[Worker alloc] initWithImageNamed:@"BasicWorker"];
                             [worker setPosition:CGPointMake(37*col + 5, 37 * row + 4)];
+                            [worker setZPosition:10.0];
                             [self addChild:worker];
                             [workers addObject:worker];
                         }
                     }
                 }
             }
-        }
-        
+        }*/
         if(CGRectContainsPoint(self.workerButton.frame, location)) {
             workermenuup = YES;
             [self displayTableView];
@@ -166,26 +190,64 @@
             buildmenuup = YES;
             [self displayTableView];
         } else if (CGRectContainsPoint(self.view.frame, location)) {
-            if(xisup) {
-                [_redxbutton removeFromParent];
-            }
-            if(workermenuup) {
-                [self.tableView removeFromSuperview];
-                workermenuup = NO;
-            } else if (buildmenuup) {
-                [self.buildView removeFromSuperview];
-                buildmenuup = NO;
-            }
+            [self collapseTables];
         } else if (xisup && CGRectContainsPoint(_redxbutton.frame, location)) {
-            [_redxbutton removeFromParent];
-            if(workermenuup) {
-                [self.tableView removeFromSuperview];
-                workermenuup = NO;
-            } else if (buildmenuup) {
-                [self.buildView removeFromSuperview];
-                buildmenuup = NO;
-            }
+            [self collapseTables];
         }
+        
+        if(buildHallway) {
+            for(int row = 0; row < [_gridNodes count]; row++) { //loop through the rows of the array starting in the top
+                for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col++) { //loop through the cols of the array starting in the left
+                    NSMutableDictionary *dictionary = [[_grid objectAtIndex:row] objectAtIndex:col];
+                    SKSpriteNode *node = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
+                    CGPoint point = CGPointMake(location.x - _node.position.x,location.y - _node.position.y);
+                    if(CGRectContainsPoint(node.frame, point)) {
+                        SKTexture *texture = [SKTexture textureWithImage:[UIImage imageNamed:@"Hallway"]];
+                        [node setTexture:texture];
+                        Building *build = [dictionary objectForKey:@"status"];
+                        [build setBuildType:Hallway];
+                        [dictionary setValue:NO forKeyPath:@"canBuild"];
+                        NSLog(@"Placed a node at: (%d,%d)!",row,col);
+                    }
+                }
+            }
+            [self reverseHallway];
+        }
+        
+        if(buildBasicOffice) {
+            for(int row = 0; row < [_gridNodes count]; row++) { //loop through the rows of the array starting in the top
+                for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col++) { //loop through the cols of the array starting in the left
+                    NSMutableDictionary *dictionary = [[_grid objectAtIndex:row] objectAtIndex:col];
+                    SKSpriteNode *node = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
+                    CGPoint point = CGPointMake(location.x - _node.position.x,location.y - _node.position.y);
+                    if(CGRectContainsPoint(node.frame, point)) {
+                        SKTexture *texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicUp"]];
+                        [node setTexture:texture];
+                        Building *build = [dictionary objectForKey:@"status"];
+                        [build setBuildType:BasicOffice];
+                        [dictionary setValue:NO forKeyPath:@"canBuild"];
+                        NSLog(@"Placed a node at: (%d,%d)!",row,col);
+                    }
+                }
+            }
+            [self reverseBasicOffice];
+        }
+
+        
+        /*
+        for(int row = 0; row < [_gridNodes count]; row++) { //loop through the rows of the array starting in the top
+            for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col++) { //loop through the cols of the array starting in the left
+                CGPoint point = CGPointMake(location.x - _node.position.x,location.y - _node.position.y);
+                SKNode *node = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
+                if(CGRectContainsPoint(node.frame, point)) {
+                    Worker *worker = [[Worker alloc] initWithImageNamed:@"BasicWorker"];
+                    [worker setPosition:CGPointMake(point.x, point.y)];
+                    [self addChild:worker];
+                }
+            }
+        }*/
+        
+        
         
         
     }
@@ -293,10 +355,14 @@
     //Calculate the scale so that 10 fit across the screen
     double widthScreen = self.frame.size.width; //width of the screen
     double ratio = imageWidth/widthScreen; //how many images can fit on the screen at the current size
-    double scale = .15/ratio; //make the scale so that 10 can fit across
+    double scale = .3/ratio; //make the scale so that 10 can fit across
+    
+    oldratio = .15/ratio;
+    oldratio *= imageHeight;
+    oldratio *= 10;
     
     //Scaled useful constants:
-    int scaledWidth = imageWidth * scale;
+    int scaledWidth = imageWidth * scale; // .15/ratio is the old
     int scaledHeight = imageHeight * scale;
     
     //display the grid:
@@ -340,23 +406,26 @@
     ///////////////////////////
     
     [self.bottomBar setPosition:CGPointMake(0, 0)];
+    SKSpriteNode *node = [SKSpriteNode spriteNodeWithColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1] size:CGSizeMake(self.view.frame.size.width, oldratio)];
+    [node setPosition:CGPointMake(0, 0)];
+    [node setZPosition:3.0];
     [self addChild: _bottomBar];
     [self.bottomBar setZPosition:2.0];
-    
+    [self.bottomBar addChild:node];
     //set up the button to pull up the hire workers menu
     
     int screenwidth = self.frame.size.width;
     int xpos = screenwidth-20;
     int ypos = 45;
     [_workerButton setScale:.25];
-    [_workerButton setZPosition:3.0];
+    [_workerButton setZPosition:4.0];
     [self.workerButton setPosition:CGPointMake(xpos,ypos)];
     [_bottomBar addChild:_workerButton];
     
     //set up the button to pull up the build menu
     xpos -= 60;
     [_buildButton setScale:.25];
-    [_buildButton setZPosition:3.0];
+    [_buildButton setZPosition:4.0];
     [_buildButton setPosition:CGPointMake(xpos, ypos)];
     [_bottomBar addChild:_buildButton];
     
@@ -368,6 +437,13 @@
 - (void) displayTableView {
     
     if(workermenuup) { //display the cells for the worker menu
+        if(buildHallway) {
+            [self reverseHallway];
+        }
+        if(buildBasicOffice) {
+            [self reverseBasicOffice];
+        }
+        
         _tableView = [[WorkerView alloc] initWithFrame:CGRectMake(25, 25, self.view.frame.size.width - 50, self.view.frame.size.height - 50)]; //set up a table so that it spawns in the middle of the screen
         //(210,180,140)
         [_tableView setBackgroundColor:[UIColor colorWithRed:(210.0/255.0) green:(180.0/255.0) blue:(140.0/255.0) alpha:1.0]];
@@ -382,6 +458,13 @@
         xisup = YES;
         
     } else if (buildmenuup) { //display the cells for the build menu
+        if(buildHallway) {
+            [self reverseHallway];
+        }
+        if(buildBasicOffice) {
+            [self reverseBasicOffice];
+        }
+        
         _buildView = [[BuildView alloc] initWithFrame:CGRectMake(25, 25, self.view.frame.size.width-50, self.view.frame.size.height-50)];
         [_buildView setBackgroundColor:[UIColor colorWithRed:(210.0/255.0) green:(180.0/255.0) blue:(140.0/255.0) alpha:1.0]];
         [self.view addSubview:_buildView];
@@ -395,8 +478,35 @@
     }
 }
 
+- (void) collapseTables {
+    if(workermenuup) {
+        [_tableView removeFromSuperview];
+        workermenuup = NO;
+    }
+    if(xisup) {
+        [_redxbutton removeFromParent];
+        xisup = NO;
+    }
+    if(buildmenuup) {
+        [_buildView removeFromSuperview];
+        buildmenuup = NO;
+    }
+}
+
 - (void) resetDay {
     
+}
+
+- (void) reverseHallway {
+    buildHallway = !buildHallway;
+}
+
+- (void) reverseBasicOffice {
+    buildBasicOffice = !buildBasicOffice;
+}
+
+- (bool) bordersHallway:(int)row withcolumn:(int)col {
+    return NO;
 }
 
 @end

@@ -7,6 +7,8 @@
 //
 
 #import "BuildCell.h"
+#import "MyScene.h"
+#import "Global.h"
 
 @implementation BuildCell
 
@@ -32,5 +34,14 @@
 }
 
 - (IBAction)buyButton:(id)sender {
+    MyScene *scene = [Global initScene:CGSizeMake(0, 0)];
+    if([[self.buildingName text] isEqualToString:@"Name: Hallway"]) {
+        [scene reverseHallway];
+        [scene collapseTables];
+    } else if ([[self.buildingName text] isEqualToString:@"Name: Basic Office"]) {
+        [scene reverseBasicOffice];
+        [scene collapseTables];
+    }
+    
 }
 @end

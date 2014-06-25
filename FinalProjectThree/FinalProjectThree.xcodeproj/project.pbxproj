@@ -23,6 +23,7 @@
 		3F3540E219586CD400DFA7C5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F3540BA19586CD400DFA7C5 /* UIKit.framework */; };
 		3F3540EA19586CD400DFA7C5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3F3540E819586CD400DFA7C5 /* InfoPlist.strings */; };
 		3F3540EC19586CD400DFA7C5 /* FinalProjectThreeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F3540EB19586CD400DFA7C5 /* FinalProjectThreeTests.m */; };
+		3F3B3A02195B717A0037C92E /* Global.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F3B3A01195B717A0037C92E /* Global.m */; };
 		3FC9D72C1959AF5F00572666 /* WorkerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC9D72B1959AF5F00572666 /* WorkerCell.m */; };
 		3FC9D7641959B7DC00572666 /* Worker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC9D7631959B7DC00572666 /* Worker.m */; };
 		3FC9D7671959BC6A00572666 /* WorkerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC9D7661959BC6A00572666 /* WorkerView.m */; };
@@ -66,6 +67,8 @@
 		3F3540E719586CD400DFA7C5 /* FinalProjectThreeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FinalProjectThreeTests-Info.plist"; sourceTree = "<group>"; };
 		3F3540E919586CD400DFA7C5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3F3540EB19586CD400DFA7C5 /* FinalProjectThreeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FinalProjectThreeTests.m; sourceTree = "<group>"; };
+		3F3B3A00195B717A0037C92E /* Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Global.h; sourceTree = "<group>"; };
+		3F3B3A01195B717A0037C92E /* Global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Global.m; sourceTree = "<group>"; };
 		3FC9D72A1959AF5F00572666 /* WorkerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkerCell.h; sourceTree = "<group>"; };
 		3FC9D72B1959AF5F00572666 /* WorkerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkerCell.m; sourceTree = "<group>"; };
 		3FC9D7621959B7DC00572666 /* Worker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Worker.h; sourceTree = "<group>"; };
@@ -152,6 +155,8 @@
 				3F3540CA19586CD400DFA7C5 /* Main_iPhone.storyboard */,
 				3F3540D019586CD400DFA7C5 /* ViewController.h */,
 				3F3540D119586CD400DFA7C5 /* ViewController.m */,
+				3F3B3A00195B717A0037C92E /* Global.h */,
+				3F3B3A01195B717A0037C92E /* Global.m */,
 				3F3540D319586CD400DFA7C5 /* MyScene.h */,
 				3F3540D419586CD400DFA7C5 /* MyScene.m */,
 				3FC9D7621959B7DC00572666 /* Worker.h */,
@@ -296,6 +301,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F3B3A02195B717A0037C92E /* Global.m in Sources */,
 				3F3540D519586CD400DFA7C5 /* MyScene.m in Sources */,
 				3FC9D76C1959F51900572666 /* BuildView.m in Sources */,
 				3FC9D76F1959F5AE00572666 /* BuildCell.m in Sources */,

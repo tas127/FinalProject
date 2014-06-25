@@ -40,9 +40,17 @@
 
 - (void) generateRouteHome {
     NSDictionary *toadd;
-    if(self.desk == 1) {
-        toadd = @{@"direction": @"right",
-                  @"pixels" : @3};
+    if(_doorPos == 1) {
+        if(_desk == TopLeft) {
+            //go right to be even with the door
+            toadd = @{@"direction" : @"right",
+                      @"pixels" : @23};
+            [_routeHome addObject:toadd];
+            //go up to go out the door
+            toadd = @{@"direction" : @"up",
+                      @"pixels" : @11};
+            [_routeHome addObject:toadd];
+        }
     }
 }
 

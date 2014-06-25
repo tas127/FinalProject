@@ -10,6 +10,7 @@
 
 typedef enum {
     None,
+    Entrance,
     Hallway,
     BasicOffice
 } TypeOfBuilding;

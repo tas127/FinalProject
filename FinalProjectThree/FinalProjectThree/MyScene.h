@@ -10,7 +10,6 @@
 #import "WorkerView.h"
 #import "WorkerCell.h"
 #import "BuildView.h"
-#import "WorkerCell.h"
 #import "Building.h"
 #import "Worker.h"
 
@@ -37,6 +36,13 @@
     NSMutableArray *buildings;
     NSMutableArray *workers;
     
+    double oldratio;
+    
+    double scalefactor;
+    
+    //bools to judge what to build
+    bool buildHallway;
+    bool buildBasicOffice;
     
 }
 
@@ -73,5 +79,9 @@
 //temporary buttons ...
 @property (nonatomic, strong) UIImageView *redx;
 @property (nonatomic, strong) SKSpriteNode *redxbutton;
+
+-(void)reverseHallway;
+-(void)reverseBasicOffice;
+-(void)collapseTables;
 
 @end

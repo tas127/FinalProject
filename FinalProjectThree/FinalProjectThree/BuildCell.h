@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface BuildCell : UITableViewCell
 
 @property (weak,nonatomic) IBOutlet UILabel *buildingName;
