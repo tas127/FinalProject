@@ -11,6 +11,8 @@
 #import "WorkerCell.h"
 #import "BuildView.h"
 #import "WorkerCell.h"
+#import "Building.h"
+#import "Worker.h"
 
 @interface MyScene : SKScene <UIGestureRecognizerDelegate>{
     bool tutorialTime; //tells the game if it is the user's first time playing the game, if not load their current game
@@ -30,6 +32,7 @@
     //bools that help the logic when detecting taps
     bool buildmenuup;
     bool workermenuup;
+    bool xisup;
     
     NSMutableArray *buildings;
     NSMutableArray *workers;
@@ -66,5 +69,9 @@
 @property (nonatomic, strong) UIView *swipeView;
 @property (nonatomic, strong) WorkerView *tableView;
 @property (nonatomic, strong) BuildView *buildView;
+
+//temporary buttons ...
+@property (nonatomic, strong) UIImageView *redx;
+@property (nonatomic, strong) SKSpriteNode *redxbutton;
 
 @end

@@ -30,6 +30,7 @@
 		3FC9D76C1959F51900572666 /* BuildView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC9D76B1959F51900572666 /* BuildView.m */; };
 		3FC9D76F1959F5AE00572666 /* BuildCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC9D76E1959F5AE00572666 /* BuildCell.m */; };
 		3FC9D773195A13F600572666 /* Empty.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FC9D772195A13F600572666 /* Empty.xib */; };
+		3FC9D776195B067900572666 /* Building.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC9D775195B067900572666 /* Building.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,8 @@
 		3FC9D76D1959F5AE00572666 /* BuildCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildCell.h; sourceTree = "<group>"; };
 		3FC9D76E1959F5AE00572666 /* BuildCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildCell.m; sourceTree = "<group>"; };
 		3FC9D772195A13F600572666 /* Empty.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Empty.xib; sourceTree = "<group>"; };
+		3FC9D774195B067900572666 /* Building.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Building.h; sourceTree = "<group>"; };
+		3FC9D775195B067900572666 /* Building.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Building.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +143,8 @@
 			children = (
 				3F3540C719586CD400DFA7C5 /* AppDelegate.h */,
 				3F3540C819586CD400DFA7C5 /* AppDelegate.m */,
+				3FC9D774195B067900572666 /* Building.h */,
+				3FC9D775195B067900572666 /* Building.m */,
 				3FC9D76D1959F5AE00572666 /* BuildCell.h */,
 				3FC9D76E1959F5AE00572666 /* BuildCell.m */,
 				3FC9D76A1959F51900572666 /* BuildView.h */,
@@ -296,6 +301,7 @@
 				3FC9D76F1959F5AE00572666 /* BuildCell.m in Sources */,
 				3FC9D7641959B7DC00572666 /* Worker.m in Sources */,
 				3FC9D72C1959AF5F00572666 /* WorkerCell.m in Sources */,
+				3FC9D776195B067900572666 /* Building.m in Sources */,
 				3F3540D219586CD400DFA7C5 /* ViewController.m in Sources */,
 				3FC9D7671959BC6A00572666 /* WorkerView.m in Sources */,
 				3F3540C919586CD400DFA7C5 /* AppDelegate.m in Sources */,

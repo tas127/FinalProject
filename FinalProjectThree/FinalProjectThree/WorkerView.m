@@ -18,7 +18,13 @@
         // Initialization code
         [self setDelegate:self];
         [self setDataSource:self];
-        UIImage *happyface = [UIImage imageNamed:@"TutorialMan"];
+        UIImage *happyface = [UIImage imageNamed:@"BasicWorker"];
+        /*
+         * Name: name of the type of worker
+         * money: the money they make per in-game hour
+         * hiringcost: the money that the user must pay to hir one
+         * image: the image to display in the preview section
+         */
         NSDictionary *basicWorker = @{@"name" : @"Basic Worker",
                                       @"money" : @1,
                                       @"hiringCost" : @100,
@@ -59,7 +65,7 @@
     UINib *nib = [UINib nibWithNibName:@"cell_Iphone" bundle:[NSBundle mainBundle]];
     [tableView registerNib:nib forCellReuseIdentifier:@"workerCell"];
     WorkerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"workerCell" forIndexPath:indexPath];
-    [cell setBackgroundColor:[UIColor colorWithRed:(210.0/255.0) green:(180.0/255.0) blue:(140.0/255.0) alpha:.5]];
+    [cell setBackgroundColor:[UIColor colorWithRed:(210.0/255.0) green:(180.0/255.0) blue:(140.0/255.0) alpha:1.0]];
     
     //set the labels to the correct texta
     NSDictionary *worker = [workers objectAtIndex:[indexPath row]];

@@ -18,12 +18,18 @@
         [self setDelegate:self];
         [self setDataSource:self];
         UIImage *happyface = [UIImage imageNamed:@"BasicUp"];
+        UIImage *hallwayImage = [UIImage imageNamed:@"Hallway"];
+        NSDictionary *hallway = @{@"name" : @"Hallway",
+                                  @"cost" : @100,
+                                  @"image" : hallwayImage,
+                                  @"bonuses" : @"None"
+                                  };
         NSDictionary *basicOffice = @{@"name" : @"Basic Office",
                                       @"cost" : @500,
                                       @"image" : happyface,
                                       @"bonuses" : @"None"
                                       };
-        buildings = [[NSMutableArray alloc] initWithObjects: basicOffice, nil];
+        buildings = [[NSMutableArray alloc] initWithObjects: hallway, basicOffice, nil];
     }
     
     return self;

@@ -18,6 +18,7 @@
         self.money = NSIntegerMax;
         buildmenuup = NO;
         workermenuup = NO;
+        xisup = NO;
         
         [self setUpNode];
         
@@ -42,8 +43,33 @@
         
         bool tut = [userDefaults boolForKey:@"tutorial"];
         
-        SKTexture *texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicRight"]];
-        [[[_gridNodes objectAtIndex:9] objectAtIndex:0] setTexture:texture];
+        //Set up the entrance to the office
+        SKTexture *texture = [SKTexture textureWithImage:[UIImage imageNamed:@"Hallway"]];
+        [[[_gridNodes objectAtIndex:9] objectAtIndex:2] setTexture:texture];
+        
+        Building *build = [[Building alloc] init];
+        [build setBuildType:Hallway];
+        
+        NSMutableDictionary *defaultSpotHallway = [[_grid objectAtIndex:9] objectAtIndex:2];
+        [defaultSpotHallway setValue:build forKey:@"status"];
+        [defaultSpotHallway setValue:NO forKey:@"canBuild"];
+        
+        //Set up a default office for testing:
+        SKTexture *textureOffice = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicRight"]];
+        [[[_gridNodes objectAtIndex:9] objectAtIndex:1] setTexture:textureOffice];
+        
+        Building *buildOffice = [[Building alloc] init];
+        [buildOffice setBuildType:BasicOffice];
+        [buildOffice setDeskOne:NO];
+        [buildOffice setDeskTwo:NO];
+        [buildOffice setDeskThree:NO];
+        [buildOffice setDeskFour:NO];
+        
+        NSMutableDictionary *defaultSpotOffice = [[_grid objectAtIndex:9] objectAtIndex:1];
+        [defaultSpotOffice setValue:buildOffice forKey:@"status"];
+        [defaultSpotOffice setValue:NO forKey:@"canBuild"];
+        
+        //Set up the arrays for buildings and workers
         
         buildings = [[NSMutableArray alloc] init];
         workers = [[NSMutableArray alloc] init];
@@ -105,6 +131,23 @@
         
         CGPoint location = [touch locationInNode:self];
         
+        for(int row = 0; row < [_gridNodes count]; row ++) {
+            for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col ++) {
+                NSMutableDictionary *dictionary = [[_grid objectAtIndex:row] objectAtIndex:col];
+                if([[dictionary objectForKey:@"status"] buildType] == BasicOffice) {
+                    SKSpriteNode *currentNode = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
+                    if(CGRectContainsPoint([currentNode frame], location)) {
+                        if(CGRectContainsPoint(CGRectMake(37*col + 5, 37 * row + 4, 17, 13), location)) {
+                            Worker *worker = [[Worker alloc] initWithImageNamed:@"BasicWorker"];
+                            [worker setPosition:CGPointMake(37*col + 5, 37 * row + 4)];
+                            [self addChild:worker];
+                            [workers addObject:worker];
+                        }
+                    }
+                }
+            }
+        }
+        
         if(CGRectContainsPoint(self.workerButton.frame, location)) {
             workermenuup = YES;
             [self displayTableView];
@@ -112,6 +155,18 @@
             buildmenuup = YES;
             [self displayTableView];
         } else if (CGRectContainsPoint(self.view.frame, location)) {
+            if(xisup) {
+                [_redxbutton removeFromParent];
+            }
+            if(workermenuup) {
+                [self.tableView removeFromSuperview];
+                workermenuup = NO;
+            } else if (buildmenuup) {
+                [self.buildView removeFromSuperview];
+                buildmenuup = NO;
+            }
+        } else if (xisup && CGRectContainsPoint(_redxbutton.frame, location)) {
+            [_redxbutton removeFromParent];
             if(workermenuup) {
                 [self.tableView removeFromSuperview];
                 workermenuup = NO;
@@ -169,8 +224,15 @@
      */
     for(int i = 0; i < 10; i ++) {
         for(int k = 0; k < 10; k ++) {
-            NSDictionary *dictionary = @{@"canBuild" : @NO,
-                                         @"status" : @"nil"};
+            Building *build = [[Building alloc] init];
+            [build setBuildType:None];
+            [build setDeskOne:YES];
+            [build setDeskTwo:YES];
+            [build setDeskThree:YES];
+            [build setDeskFour:YES];
+            
+            NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithDictionary:@{@"canBuild" : @YES,
+                                                                                                @"status" : build}];
             [[self.grid objectAtIndex:i] addObject:dictionary];
         }
     }
@@ -298,12 +360,27 @@
         _tableView = [[WorkerView alloc] initWithFrame:CGRectMake(25, 25, self.view.frame.size.width - 50, self.view.frame.size.height - 50)]; //set up a table so that it spawns in the middle of the screen
         //(210,180,140)
         [_tableView setBackgroundColor:[UIColor colorWithRed:(210.0/255.0) green:(180.0/255.0) blue:(140.0/255.0) alpha:1.0]];
-        
         [self.view addSubview:_tableView];
+        
+        _redxbutton = [[SKSpriteNode alloc] initWithImageNamed:@"RedX"];
+        [_redxbutton setPosition:CGPointMake(305,535)];
+        [_redxbutton setZPosition:10.0];
+        [_redxbutton setScale:.1];
+        
+        [self addChild:_redxbutton];
+        xisup = YES;
+        
     } else if (buildmenuup) { //display the cells for the build menu
         _buildView = [[BuildView alloc] initWithFrame:CGRectMake(25, 25, self.view.frame.size.width-50, self.view.frame.size.height-50)];
         [_buildView setBackgroundColor:[UIColor colorWithRed:(210.0/255.0) green:(180.0/255.0) blue:(140.0/255.0) alpha:1.0]];
         [self.view addSubview:_buildView];
+        
+        _redxbutton = [[SKSpriteNode alloc] initWithImageNamed:@"RedX"];
+        [_redxbutton setPosition:CGPointMake(305,535)];
+        [_redxbutton setZPosition:10.0];
+        [_redxbutton setScale:.1];
+        [self addChild:_redxbutton];
+        xisup = YES;
     }
 }
 
