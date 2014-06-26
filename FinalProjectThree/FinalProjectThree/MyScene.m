@@ -8,14 +8,21 @@
 
 #import "MyScene.h"
 
+
+
 @implementation MyScene
 
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
         
+        NSInteger dollars = [userDefaults integerForKey:@"money"];
         //initialize all instance variables
-        self.money = NSIntegerMax;
+        if(dollars) {
+            self.money = [userDefaults integerForKey:@"money"];
+        } else {
+            self.money = 100000;
+        }
         buildmenuup = NO;
         workermenuup = NO;
         xisup = NO;
@@ -23,6 +30,7 @@
         
         buildHallway = NO;
         buildBasicOffice = NO;
+        destroyActivated = NO;
         
         [self setUpNode];
         
@@ -32,20 +40,23 @@
         
         [self setUpBottomBar];
         
-        _gameClock = [NSTimer timerWithTimeInterval:120.0 target:self selector:@selector(resetDay) userInfo:nil repeats:YES];
+        _gameClock = [NSTimer scheduledTimerWithTimeInterval:120.0 target:self selector:@selector(resetDay) userInfo:nil repeats:YES];
+        _moneyTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(updateMoney) userInfo:nil repeats:YES];
         
         _moneyLabel = [[SKLabelNode alloc] init];
         [_moneyLabel setText: [NSString stringWithFormat:@"$%ld", (long) self.money]];
         [_moneyLabel setFontSize:30];
-        [_moneyLabel setFontColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:1.0]];
+        [_moneyLabel setFontColor:[UIColor whiteColor]];
         [_moneyLabel setZPosition:5.0];
-        [_moneyLabel setPosition:CGPointMake(93,50)];
+        [_moneyLabel setPosition:CGPointMake(270, 520)];
+
         //[_moneyLabel setHidden:YES];
         [self addChild:_moneyLabel];
         
         userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setInteger:self.money forKey:@"money"];
         
-        bool tut = [userDefaults boolForKey:@"tutorial"];
+        //bool tut = [userDefaults boolForKey:@"tutorial"];
         
         //Set up the entrance to the office
         SKTexture *texture = [SKTexture textureWithImage:[UIImage imageNamed:@"Hallway"]];
@@ -56,7 +67,8 @@
         
         NSMutableDictionary *defaultSpotHallway = [[_grid objectAtIndex:9] objectAtIndex:2];
         [defaultSpotHallway setValue:build forKey:@"status"];
-        [defaultSpotHallway setValue:NO forKey:@"canBuild"];
+        NSNumber *num = [[NSNumber alloc] initWithBool:NO];
+        [defaultSpotHallway setValue:num forKey:@"canBuild"];
         
         //Set up a default office for testing:
         SKTexture *textureOffice = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicRight"]];
@@ -71,7 +83,10 @@
         
         NSMutableDictionary *defaultSpotOffice = [[_grid objectAtIndex:9] objectAtIndex:1];
         [defaultSpotOffice setValue:buildOffice forKey:@"status"];
-        [defaultSpotOffice setValue:NO forKey:@"canBuild"];
+        num = [[NSNumber alloc] initWithBool:NO];
+        [defaultSpotOffice setValue:num forKey:@"canBuild"];
+        numOffices = 1;
+        numHallways = 1;
         
         //Set up the arrays for buildings and workers
         
@@ -91,7 +106,7 @@
         //possibly editable later???
         self.backgroundColor = [SKColor colorWithRed:1 green:1 blue:1 alpha:1.0];
         
-    }
+}
     return self;
 }
 
@@ -148,7 +163,7 @@
     } else if (nexty < 0) {
         nexty = 0;
     }
-    NSLog(@"%f, %f", nextx, nexty);
+    //NSLog(@"%f, %f", nextx, nexty);
     [_node setPosition:CGPointMake(nextx, nexty)];
 }
 
@@ -195,44 +210,147 @@
             [self collapseTables];
         }
         
-        if(buildHallway) {
-            for(int row = 0; row < [_gridNodes count]; row++) { //loop through the rows of the array starting in the top
-                for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col++) { //loop through the cols of the array starting in the left
-                    NSMutableDictionary *dictionary = [[_grid objectAtIndex:row] objectAtIndex:col];
-                    SKSpriteNode *node = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
-                    CGPoint point = CGPointMake(location.x - _node.position.x,location.y - _node.position.y);
-                    if(CGRectContainsPoint(node.frame, point)) {
-                        SKTexture *texture = [SKTexture textureWithImage:[UIImage imageNamed:@"Hallway"]];
-                        [node setTexture:texture];
-                        Building *build = [dictionary objectForKey:@"status"];
-                        [build setBuildType:Hallway];
-                        [dictionary setValue:NO forKeyPath:@"canBuild"];
-                        NSLog(@"Placed a node at: (%d,%d)!",row,col);
-                    }
-                }
-            }
-            [self reverseHallway];
+        if(CGRectContainsPoint(self.destroyButton.frame, location)) {
+            destroyActivated = !destroyActivated;
         }
         
-        if(buildBasicOffice) {
-            for(int row = 0; row < [_gridNodes count]; row++) { //loop through the rows of the array starting in the top
-                for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col++) { //loop through the cols of the array starting in the left
+        if(destroyActivated) {
+            for(int row = 0; row < [_gridNodes count]; row ++) {
+                for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col ++) {
                     NSMutableDictionary *dictionary = [[_grid objectAtIndex:row] objectAtIndex:col];
                     SKSpriteNode *node = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
-                    CGPoint point = CGPointMake(location.x - _node.position.x,location.y - _node.position.y);
+                    CGPoint point = CGPointMake(location.x - _node.position.x, location.y - _node.position.y);
                     if(CGRectContainsPoint(node.frame, point)) {
-                        SKTexture *texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicUp"]];
-                        [node setTexture:texture];
-                        Building *build = [dictionary objectForKey:@"status"];
-                        [build setBuildType:BasicOffice];
-                        [dictionary setValue:NO forKeyPath:@"canBuild"];
-                        NSLog(@"Placed a node at: (%d,%d)!",row,col);
+                        NSNumber *b = [dictionary objectForKey:@"canBuild"];
+                        if(!b.boolValue) {
+                            int randnum = arc4random() % 4;
+                            SKTexture *texture;
+                            switch(randnum) {
+                                case 0:
+                                    texture = [SKTexture textureWithImage:[UIImage imageNamed:@"Grass"]];
+                                    break;
+                                case 1:
+                                    texture = [SKTexture textureWithImage:[UIImage imageNamed:@"Grass2"]];
+                                    break;
+                                case 2:
+                                    texture = [SKTexture textureWithImage:[UIImage imageNamed:@"Grass3"]];
+                                    break;
+                                case 3:
+                                    texture = [SKTexture textureWithImage:[UIImage imageNamed:@"Grass4"]];
+                                    break;
+                            }
+                            if([[dictionary objectForKey:@"status"] buildType] == BasicOffice) {
+                                numOffices --;
+                            } else if ([[dictionary objectForKey:@"status"] buildType] == Hallway) {
+                                numHallways--;
+                            }
+                            [node setTexture:texture];
+                            NSNumber *num = [[NSNumber alloc] initWithBool:YES];
+                            [dictionary setValue:num forKey:@"canBuild"];
+                            Building *build = [[Building alloc] init];
+                            [build setBuildType:None];
+                            [dictionary setValue:build forKey:@"status"];
+                            destroyActivated = NO;
+                            
+
+                        }
                     }
                 }
             }
-            [self reverseBasicOffice];
+        }
+        
+        if(buildHallway) {
+            if(self.money >= 100) {
+                for(int row = 0; row < [_gridNodes count]; row++) { //loop through the rows of the array starting in the top
+                    for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col++) { //loop through the cols of the array starting in the left
+                        NSMutableDictionary *dictionary = [[_grid objectAtIndex:row] objectAtIndex:col];
+                        SKSpriteNode *node = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
+                        CGPoint point = CGPointMake(location.x - _node.position.x,location.y - _node.position.y);
+                        if(CGRectContainsPoint(node.frame, point)) {
+                            if([self bordersHallwayWithRow:row Column:col]) {
+                                NSNumber *num = [dictionary objectForKey:@"canBuild"];
+                                if(num.boolValue) {
+                                    SKTexture *texture = [SKTexture textureWithImage:[UIImage imageNamed:@"Hallway"]];
+                                    [node setTexture:texture];
+                                     Building *build = [dictionary objectForKey:@"status"];
+                                     [build setBuildType:Hallway];
+                                     [dictionary setValue:NO forKey:@"canBuild"];
+                                     NSLog(@"Placed a node at: (%d,%d)!",row,col);
+                                     [self reverseHallway];
+                                     self.money -= 100;
+                                    numHallways++;
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                [self reverseBasicOffice];
+                _youCantDoThat = [[SKLabelNode alloc] init];
+                [_youCantDoThat setText:@"You don't have enough money for that!"];
+                [_youCantDoThat setFontColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1.0]];
+                [_youCantDoThat setZPosition:10.0];
+                [_youCantDoThat setFontSize:15];
+                [_youCantDoThat setPosition:CGPointMake(.5 * self.view.frame.size.width, .5 * self.view.frame.size.height)];
+                [self addChild:_youCantDoThat];
+                NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(deleteYouCantDoThat) userInfo:nil repeats:NO];
+                
+                _fadeText = [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(fadeYCDT) userInfo:nil repeats:YES];
+            }
+
+            
+        }
+        if(buildBasicOffice) {
+            if(self.money >= 500) {
+                for(int row = 0; row < [_gridNodes count]; row++) { //loop through the rows of the array starting in the top
+                    for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col++) { //loop through the cols of the array starting in the left
+                        NSMutableDictionary *dictionary = [[_grid objectAtIndex:row] objectAtIndex:col];
+                        SKSpriteNode *node = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
+                        CGPoint point = CGPointMake(location.x - _node.position.x,location.y - _node.position.y);
+                        if(CGRectContainsPoint(node.frame, point)) {
+                            if([self bordersHallwayWithRow:row Column:col]) {
+                                NSNumber *num = [dictionary objectForKey:@"canBuild"];
+                                if(num.boolValue) {
+                                    SKTexture *texture;
+                                    Direction d = [self directionToHallwayRow:row Column:col];
+                                    if(d == Up) {
+                                        texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicUp"]];
+                                    } else if (d == Right) {
+                                        texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicRight"]];
+                                    } else if (d == Left) {
+                                        texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicLeft"]];
+                                    } else {
+                                        texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicDown"]];
+                                    }
+                                    [node setTexture:texture];
+                                    Building *build = [dictionary objectForKey:@"status"];
+                                    [build setBuildType:BasicOffice];
+                                    [dictionary setValue:NO forKey:@"canBuild"];
+                                    NSLog(@"Placed a node at: (%d,%d)!",row,col);
+                                    [self reverseBasicOffice];
+                                    self.money -= 500;
+                                    numOffices++;
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                [self reverseBasicOffice];
+                _youCantDoThat = [[SKLabelNode alloc] init];
+                [_youCantDoThat setText:@"You don't have enough money for that!"];
+                [_youCantDoThat setFontColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1.0]];
+                [_youCantDoThat setZPosition:10.0];
+                [_youCantDoThat setFontSize:15];
+                [_youCantDoThat setPosition:CGPointMake(.5 * self.view.frame.size.width, .5 * self.view.frame.size.height)];
+                [self addChild:_youCantDoThat];
+                NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(deleteYouCantDoThat) userInfo:nil repeats:NO];
+                
+                _fadeText = [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(fadeYCDT) userInfo:nil repeats:YES];
+            }
         }
 
+        
         
         /*
         for(int row = 0; row < [_gridNodes count]; row++) { //loop through the rows of the array starting in the top
@@ -253,8 +371,18 @@
     }
 }
 
+- (void) fadeYCDT {
+    [_youCantDoThat setAlpha:_youCantDoThat.alpha -= .1];
+}
+
+- (void) deleteYouCantDoThat {
+    [_youCantDoThat removeFromParent];
+    [_fadeText invalidate];
+}
+
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
+    [_moneyLabel setText:[NSString stringWithFormat:@"$%d",self.money]];
 }
 
 - (void) loadTutorial {
@@ -267,6 +395,9 @@
 
 - (void) updateMoney {
     //Depending on workers hired, quality of offices, etc, update money based on a certain timer to be set later
+    self.money += (numOffices * 4);
+    [userDefaults setInteger:self.money forKey:@"money"];
+    [userDefaults synchronize];
 }
 
 - (void) setUpNode {
@@ -304,7 +435,8 @@
             [build setDeskThree:YES];
             [build setDeskFour:YES];
             
-            NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithDictionary:@{@"canBuild" : @YES,
+            NSNumber *num = [[NSNumber alloc] initWithBool:YES];
+            NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithDictionary:@{@"canBuild" : num,
                                                                                                 @"status" : build}];
             [[self.grid objectAtIndex:i] addObject:dictionary];
         }
@@ -400,6 +532,7 @@
     self.bottomBar = [[SKNode alloc] init];
     self.workerButton = [SKSpriteNode spriteNodeWithImageNamed:@"Worker"];
     self.buildButton = [SKSpriteNode spriteNodeWithImageNamed:@"Build"];
+    _destroyButton = [SKSpriteNode spriteNodeWithImageNamed:@"Bulldozer"];
     
     ///////////////////////////
     // Set up the bottom bar //
@@ -428,6 +561,12 @@
     [_buildButton setZPosition:4.0];
     [_buildButton setPosition:CGPointMake(xpos, ypos)];
     [_bottomBar addChild:_buildButton];
+    
+    xpos -= 80;
+    [_destroyButton setScale:.75];
+    [_destroyButton setZPosition:4.0];
+    [_destroyButton setPosition:CGPointMake(xpos,ypos)];
+    [_bottomBar addChild:_destroyButton];
     
     ////////////////////////////////
     // End Setting up bottom bar //
@@ -505,8 +644,66 @@
     buildBasicOffice = !buildBasicOffice;
 }
 
-- (bool) bordersHallway:(int)row withcolumn:(int)col {
-    return NO;
+- (void) reverseDestruction {
+    destroyActivated = !destroyActivated;
+}
+
+- (BOOL) getDestruction {
+    return destroyActivated;
+}
+
+- (bool) bordersHallwayWithRow:(int)row Column:(int)col {
+    if(row - 1 >= 0) {
+        if([[[[_grid objectAtIndex:row-1] objectAtIndex:col] objectForKey:@"status"] buildType] == Hallway) {
+            return true;
+        }
+    }
+    int c = col - 1;
+    for(; c <= col + 1; c++) {
+        if(c >= 0 && c < [_grid count]) {
+            Building *build = [[[_grid objectAtIndex:row] objectAtIndex:c] objectForKey:@"status"];
+            if([build buildType] == Hallway) {
+                return true;
+             }
+        }
+    }
+    if(row + 1 < [_grid count]) {
+        Building *build = [[[_grid objectAtIndex:row+1] objectAtIndex:col] objectForKey:@"status"];
+        if([build buildType] == Hallway) {
+            return true;
+        }
+    }
+    return false;
+}
+
+- (Direction) directionToHallwayRow:(int)row Column:(int)col {
+    if(row - 1 >= 0) {
+        if([[[[_grid objectAtIndex:row-1] objectAtIndex:col] objectForKey:@"status"] buildType] == Hallway) {
+            return Up;
+        }
+    }
+    
+    if(col - 1 >= 0) {
+        Building *build = [[[_grid objectAtIndex:row] objectAtIndex:col-1] objectForKey:@"status"];
+        if([build buildType] == Hallway) {
+            return Left;
+        }
+    }
+    
+    if(col + 1 < [_grid count]) {
+        Building *build = [[[_grid objectAtIndex:row] objectAtIndex:col+1] objectForKey:@"status"];
+        if([build buildType] == Hallway) {
+            return Right;
+        }
+    }
+    
+    if(row + 1 < [_grid count]) {
+        Building *build = [[[_grid objectAtIndex:row+1] objectAtIndex:col] objectForKey:@"status"];
+        if([build buildType] == Hallway) {
+            return Down;
+        }
+    }
+    return Here;
 }
 
 @end

@@ -36,9 +36,15 @@
 - (IBAction)buyButton:(id)sender {
     MyScene *scene = [Global initScene:CGSizeMake(0, 0)];
     if([[self.buildingName text] isEqualToString:@"Name: Hallway"]) {
+        if([scene getDestruction]) {
+            [scene reverseDestruction];
+        }
         [scene reverseHallway];
         [scene collapseTables];
     } else if ([[self.buildingName text] isEqualToString:@"Name: Basic Office"]) {
+        if([scene getDestruction]) {
+            [scene reverseDestruction];
+        }
         [scene reverseBasicOffice];
         [scene collapseTables];
     }
