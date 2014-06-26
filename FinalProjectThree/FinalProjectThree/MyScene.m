@@ -48,7 +48,7 @@
         [_moneyLabel setFontSize:30];
         [_moneyLabel setFontColor:[UIColor whiteColor]];
         [_moneyLabel setZPosition:5.0];
-        [_moneyLabel setPosition:CGPointMake(270, 520)];
+        [_moneyLabel setPosition:CGPointMake(170, 520)];
 
         //[_moneyLabel setHidden:YES];
         [self addChild:_moneyLabel];
@@ -214,6 +214,12 @@
             destroyActivated = !destroyActivated;
         }
         
+        /*if(CGRectContainsPoint(self.cheaterButton.frame, location)) {
+            CGPoint point = CGPointMake(location.x - _node.position.x, location.y - _node.position.y);
+            _cheatText = [[UITextField alloc] initWithFrame:CGRectMake(_swipeView.frame.size.width * .5, _swipeView.frame.size.height * .5, 100, 50)];
+            [_swipeView addSubview:_cheatText];
+        }*/
+        
         if(destroyActivated) {
             for(int row = 0; row < [_gridNodes count]; row ++) {
                 for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col ++) {
@@ -300,6 +306,7 @@
 
             
         }
+        
         if(buildBasicOffice) {
             if(self.money >= 500) {
                 for(int row = 0; row < [_gridNodes count]; row++) { //loop through the rows of the array starting in the top
@@ -533,6 +540,7 @@
     self.workerButton = [SKSpriteNode spriteNodeWithImageNamed:@"Worker"];
     self.buildButton = [SKSpriteNode spriteNodeWithImageNamed:@"Build"];
     _destroyButton = [SKSpriteNode spriteNodeWithImageNamed:@"Bulldozer"];
+    //_cheaterButton = [SKSpriteNode spriteNodeWithImageNamed:@"Cheater"];
     
     ///////////////////////////
     // Set up the bottom bar //
@@ -567,6 +575,12 @@
     [_destroyButton setZPosition:4.0];
     [_destroyButton setPosition:CGPointMake(xpos,ypos)];
     [_bottomBar addChild:_destroyButton];
+    
+    /*xpos -= 80;
+    [_cheaterButton setScale:.25];
+    [_cheaterButton setZPosition:4.0];
+    [_cheaterButton setPosition:CGPointMake(xpos, ypos)];
+    [_bottomBar addChild:_cheaterButton];*/
     
     ////////////////////////////////
     // End Setting up bottom bar //

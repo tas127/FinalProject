@@ -45,15 +45,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3F3540B319586CD400DFA7C5 /* FinalProjectThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProjectThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F3540B319586CD400DFA7C5 /* Office Sim.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Office Sim.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F3540B619586CD400DFA7C5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3F3540B819586CD400DFA7C5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3F3540BA19586CD400DFA7C5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3F3540BC19586CD400DFA7C5 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
-		3F3540C019586CD400DFA7C5 /* FinalProjectThree-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FinalProjectThree-Info.plist"; sourceTree = "<group>"; };
+		3F3540C019586CD400DFA7C5 /* Office Sim-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Office Sim-Info.plist"; sourceTree = "<group>"; };
 		3F3540C219586CD400DFA7C5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3F3540C419586CD400DFA7C5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		3F3540C619586CD400DFA7C5 /* FinalProjectThree-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FinalProjectThree-Prefix.pch"; sourceTree = "<group>"; };
+		3F3540C619586CD400DFA7C5 /* Office Sim-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Office Sim-Prefix.pch"; sourceTree = "<group>"; };
 		3F3540C719586CD400DFA7C5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3F3540C819586CD400DFA7C5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3F3540CB19586CD400DFA7C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
@@ -62,9 +62,9 @@
 		3F3540D319586CD400DFA7C5 /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
 		3F3540D419586CD400DFA7C5 /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
 		3F3540D819586CD400DFA7C5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		3F3540DE19586CD400DFA7C5 /* FinalProjectThreeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalProjectThreeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F3540DE19586CD400DFA7C5 /* Office SimTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Office SimTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F3540DF19586CD400DFA7C5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		3F3540E719586CD400DFA7C5 /* FinalProjectThreeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FinalProjectThreeTests-Info.plist"; sourceTree = "<group>"; };
+		3F3540E719586CD400DFA7C5 /* Office SimTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Office SimTests-Info.plist"; sourceTree = "<group>"; };
 		3F3540E919586CD400DFA7C5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3F3540EB19586CD400DFA7C5 /* FinalProjectThreeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FinalProjectThreeTests.m; sourceTree = "<group>"; };
 		3F3B3A00195B717A0037C92E /* Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Global.h; sourceTree = "<group>"; };
@@ -123,8 +123,8 @@
 		3F3540B419586CD400DFA7C5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3F3540B319586CD400DFA7C5 /* FinalProjectThree.app */,
-				3F3540DE19586CD400DFA7C5 /* FinalProjectThreeTests.xctest */,
+				3F3540B319586CD400DFA7C5 /* Office Sim.app */,
+				3F3540DE19586CD400DFA7C5 /* Office SimTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -176,10 +176,10 @@
 		3F3540BF19586CD400DFA7C5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3F3540C019586CD400DFA7C5 /* FinalProjectThree-Info.plist */,
+				3F3540C019586CD400DFA7C5 /* Office Sim-Info.plist */,
 				3F3540C119586CD400DFA7C5 /* InfoPlist.strings */,
 				3F3540C419586CD400DFA7C5 /* main.m */,
-				3F3540C619586CD400DFA7C5 /* FinalProjectThree-Prefix.pch */,
+				3F3540C619586CD400DFA7C5 /* Office Sim-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -196,7 +196,7 @@
 		3F3540E619586CD400DFA7C5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3F3540E719586CD400DFA7C5 /* FinalProjectThreeTests-Info.plist */,
+				3F3540E719586CD400DFA7C5 /* Office SimTests-Info.plist */,
 				3F3540E819586CD400DFA7C5 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -205,9 +205,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3F3540B219586CD400DFA7C5 /* FinalProjectThree */ = {
+		3F3540B219586CD400DFA7C5 /* Office Sim */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3F3540EF19586CD400DFA7C5 /* Build configuration list for PBXNativeTarget "FinalProjectThree" */;
+			buildConfigurationList = 3F3540EF19586CD400DFA7C5 /* Build configuration list for PBXNativeTarget "Office Sim" */;
 			buildPhases = (
 				3F3540AF19586CD400DFA7C5 /* Sources */,
 				3F3540B019586CD400DFA7C5 /* Frameworks */,
@@ -217,14 +217,14 @@
 			);
 			dependencies = (
 			);
-			name = FinalProjectThree;
+			name = "Office Sim";
 			productName = FinalProjectThree;
-			productReference = 3F3540B319586CD400DFA7C5 /* FinalProjectThree.app */;
+			productReference = 3F3540B319586CD400DFA7C5 /* Office Sim.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3F3540DD19586CD400DFA7C5 /* FinalProjectThreeTests */ = {
+		3F3540DD19586CD400DFA7C5 /* Office SimTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3F3540F219586CD400DFA7C5 /* Build configuration list for PBXNativeTarget "FinalProjectThreeTests" */;
+			buildConfigurationList = 3F3540F219586CD400DFA7C5 /* Build configuration list for PBXNativeTarget "Office SimTests" */;
 			buildPhases = (
 				3F3540DA19586CD400DFA7C5 /* Sources */,
 				3F3540DB19586CD400DFA7C5 /* Frameworks */,
@@ -235,9 +235,9 @@
 			dependencies = (
 				3F3540E419586CD400DFA7C5 /* PBXTargetDependency */,
 			);
-			name = FinalProjectThreeTests;
+			name = "Office SimTests";
 			productName = FinalProjectThreeTests;
-			productReference = 3F3540DE19586CD400DFA7C5 /* FinalProjectThreeTests.xctest */;
+			productReference = 3F3540DE19586CD400DFA7C5 /* Office SimTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -254,7 +254,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3F3540AE19586CD400DFA7C5 /* Build configuration list for PBXProject "FinalProjectThree" */;
+			buildConfigurationList = 3F3540AE19586CD400DFA7C5 /* Build configuration list for PBXProject "Office Sim" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -267,8 +267,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3F3540B219586CD400DFA7C5 /* FinalProjectThree */,
-				3F3540DD19586CD400DFA7C5 /* FinalProjectThreeTests */,
+				3F3540B219586CD400DFA7C5 /* Office Sim */,
+				3F3540DD19586CD400DFA7C5 /* Office SimTests */,
 			);
 		};
 /* End PBXProject section */
@@ -328,7 +328,7 @@
 /* Begin PBXTargetDependency section */
 		3F3540E419586CD400DFA7C5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3F3540B219586CD400DFA7C5 /* FinalProjectThree */;
+			target = 3F3540B219586CD400DFA7C5 /* Office Sim */;
 			targetProxy = 3F3540E319586CD400DFA7C5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -439,9 +439,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FinalProjectThree/FinalProjectThree-Prefix.pch";
-				INFOPLIST_FILE = "FinalProjectThree/FinalProjectThree-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "FinalProjectThree/Office Sim-Prefix.pch";
+				INFOPLIST_FILE = "FinalProjectThree/Office Sim-Info.plist";
+				PRODUCT_NAME = "Office Sim";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -454,9 +454,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FinalProjectThree/FinalProjectThree-Prefix.pch";
-				INFOPLIST_FILE = "FinalProjectThree/FinalProjectThree-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "FinalProjectThree/Office Sim-Prefix.pch";
+				INFOPLIST_FILE = "FinalProjectThree/Office Sim-Info.plist";
+				PRODUCT_NAME = "Office Sim";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -478,8 +478,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "FinalProjectThreeTests/FinalProjectThreeTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "FinalProjectThreeTests/Office SimTests-Info.plist";
+				PRODUCT_NAME = "Office SimTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -496,8 +496,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FinalProjectThree/FinalProjectThree-Prefix.pch";
-				INFOPLIST_FILE = "FinalProjectThreeTests/FinalProjectThreeTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "FinalProjectThreeTests/Office SimTests-Info.plist";
+				PRODUCT_NAME = "Office SimTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -506,7 +506,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3F3540AE19586CD400DFA7C5 /* Build configuration list for PBXProject "FinalProjectThree" */ = {
+		3F3540AE19586CD400DFA7C5 /* Build configuration list for PBXProject "Office Sim" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3F3540ED19586CD400DFA7C5 /* Debug */,
@@ -515,7 +515,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3F3540EF19586CD400DFA7C5 /* Build configuration list for PBXNativeTarget "FinalProjectThree" */ = {
+		3F3540EF19586CD400DFA7C5 /* Build configuration list for PBXNativeTarget "Office Sim" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3F3540F019586CD400DFA7C5 /* Debug */,
@@ -524,7 +524,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3F3540F219586CD400DFA7C5 /* Build configuration list for PBXNativeTarget "FinalProjectThreeTests" */ = {
+		3F3540F219586CD400DFA7C5 /* Build configuration list for PBXNativeTarget "Office SimTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3F3540F319586CD400DFA7C5 /* Debug */,

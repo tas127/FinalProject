@@ -78,6 +78,9 @@ typedef  enum {
 @property (nonatomic, strong) SKSpriteNode *buildButton;
 @property (nonatomic, strong) SKSpriteNode *workerButton;
 @property (nonatomic, strong) SKSpriteNode *destroyButton;
+/*@property (nonatomic, strong) SKSpriteNode *cheaterButton;
+@property (nonatomic, strong) UITextField *cheatText;*/
+
 
 //labels
 @property (nonatomic, strong) SKLabelNode *timeLabel;

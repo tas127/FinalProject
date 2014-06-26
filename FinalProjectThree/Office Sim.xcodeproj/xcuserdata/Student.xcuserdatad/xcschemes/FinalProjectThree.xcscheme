@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3F3540B219586CD400DFA7C5"
                BuildableName = "FinalProjectThree.app"
-               BlueprintName = "FinalProjectThree"
-               ReferencedContainer = "container:FinalProjectThree.xcodeproj">
+               BlueprintName = "Office Sim"
+               ReferencedContainer = "container:Office Sim.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3F3540DD19586CD400DFA7C5"
                BuildableName = "FinalProjectThreeTests.xctest"
-               BlueprintName = "FinalProjectThreeTests"
-               ReferencedContainer = "container:FinalProjectThree.xcodeproj">
+               BlueprintName = "Office SimTests"
+               ReferencedContainer = "container:Office Sim.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,8 +44,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3F3540B219586CD400DFA7C5"
             BuildableName = "FinalProjectThree.app"
-            BlueprintName = "FinalProjectThree"
-            ReferencedContainer = "container:FinalProjectThree.xcodeproj">
+            BlueprintName = "Office Sim"
+            ReferencedContainer = "container:Office Sim.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3F3540B219586CD400DFA7C5"
             BuildableName = "FinalProjectThree.app"
-            BlueprintName = "FinalProjectThree"
-            ReferencedContainer = "container:FinalProjectThree.xcodeproj">
+            BlueprintName = "Office Sim"
+            ReferencedContainer = "container:Office Sim.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3F3540B219586CD400DFA7C5"
             BuildableName = "FinalProjectThree.app"
-            BlueprintName = "FinalProjectThree"
-            ReferencedContainer = "container:FinalProjectThree.xcodeproj">
+            BlueprintName = "Office Sim"
+            ReferencedContainer = "container:Office Sim.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
