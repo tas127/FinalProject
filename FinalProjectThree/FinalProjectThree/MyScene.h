@@ -21,6 +21,7 @@ typedef  enum {
     Down
 }Direction;
 
+
 @interface MyScene : SKScene <UIGestureRecognizerDelegate> {
     bool tutorialTime; //tells the game if it is the user's first time playing the game, if not load their current game
     /*
@@ -52,6 +53,7 @@ typedef  enum {
     bool buildHallway;
     bool buildBasicOffice;
     bool destroyActivated;
+    bool workerSelected;
     
     int numOffices;
     int numHallways;

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+//#import "Global.h"
 
 @interface WorkerView : UITableView <UITableViewDelegate, UITableViewDataSource> {
     NSMutableArray *workers;

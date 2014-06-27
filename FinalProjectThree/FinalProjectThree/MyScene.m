@@ -31,6 +31,7 @@
         buildHallway = NO;
         buildBasicOffice = NO;
         destroyActivated = NO;
+        workerSelected = YES;
         
         [self setUpNode];
         
@@ -76,10 +77,9 @@
         
         Building *buildOffice = [[Building alloc] init];
         [buildOffice setBuildType:BasicOffice];
-        [buildOffice setDeskOne:NO];
-        [buildOffice setDeskTwo:NO];
-        [buildOffice setDeskThree:NO];
-        [buildOffice setDeskFour:NO];
+        [buildOffice setNumWorkers:0];
+        [buildOffice setDirection:R];
+
         
         NSMutableDictionary *defaultSpotOffice = [[_grid objectAtIndex:9] objectAtIndex:1];
         [defaultSpotOffice setValue:buildOffice forKey:@"status"];
@@ -220,6 +220,40 @@
             [_swipeView addSubview:_cheatText];
         }*/
         
+        if(workerSelected) {
+            for(int row = 0; row < [_gridNodes count]; row ++) {
+                for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col ++) {
+                    CGPoint point = CGPointMake(location.x-_node.position.x, location.y-_node.position.y);
+                    NSMutableDictionary *dictionary = [[_grid objectAtIndex:row] objectAtIndex:col];
+                    SKSpriteNode *node = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
+                    if(CGRectContainsPoint(node.frame, point)) {
+                        Building *build = [dictionary objectForKey:@"status"];
+                        if([build buildType] == BasicOffice) {
+                            int curWorkers = [build numWorkers];
+                            if(curWorkers < 5) {
+                                Facing f = [build direction];
+                                SKTexture *texture;
+                                if(curWorkers == 0) {
+                                    [build setNumWorkers:1];
+                                    texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicOne"]];
+                                    [node setTexture:texture];
+                                    if (f == R) {
+                                        [node setZRotation:(3*M_PI)/2];
+                                    } else if (f == D) {
+                                        [node setZRotation:M_PI];
+                                    } else if (f == L) {
+                                        [node setZRotation:M_PI/2.0];
+                                    }
+                                }
+                            } else {
+                                workerSelected = NO;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         if(destroyActivated) {
             for(int row = 0; row < [_gridNodes count]; row ++) {
                 for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col ++) {
@@ -318,20 +352,24 @@
                             if([self bordersHallwayWithRow:row Column:col]) {
                                 NSNumber *num = [dictionary objectForKey:@"canBuild"];
                                 if(num.boolValue) {
-                                    SKTexture *texture;
+                                    SKTexture *texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicUp"]];
                                     Direction d = [self directionToHallwayRow:row Column:col];
-                                    if(d == Up) {
-                                        texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicUp"]];
-                                    } else if (d == Right) {
-                                        texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicRight"]];
-                                    } else if (d == Left) {
-                                        texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicLeft"]];
-                                    } else {
-                                        texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicDown"]];
-                                    }
-                                    [node setTexture:texture];
                                     Building *build = [dictionary objectForKey:@"status"];
                                     [build setBuildType:BasicOffice];
+                                    [build setNumWorkers:0];
+                                    if(d == Up) {
+                                        [build setDirection:U];
+                                    } else if (d == Right) {
+                                        [node setZRotation:(3*M_PI)/2];
+                                        [build setDirection:R];
+                                    } else if (d == Left) {
+                                        [node setZRotation:(M_PI/2)];
+                                        [build setDirection:L];
+                                    } else {
+                                        [node setZRotation:M_PI];
+                                        [build setDirection:D];
+                                    }
+                                    [node setTexture:texture];
                                     [dictionary setValue:NO forKey:@"canBuild"];
                                     NSLog(@"Placed a node at: (%d,%d)!",row,col);
                                     [self reverseBasicOffice];
@@ -437,10 +475,7 @@
         for(int k = 0; k < 10; k ++) {
             Building *build = [[Building alloc] init];
             [build setBuildType:None];
-            [build setDeskOne:YES];
-            [build setDeskTwo:YES];
-            [build setDeskThree:YES];
-            [build setDeskFour:YES];
+
             
             NSNumber *num = [[NSNumber alloc] initWithBool:YES];
             NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithDictionary:@{@"canBuild" : num,

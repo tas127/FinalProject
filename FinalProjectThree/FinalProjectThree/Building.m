@@ -14,11 +14,7 @@
 
 
 - (void) searchForHallway {
-    if(myRow - 1 < [_grid count]) {
-        //if([[[[_grid objectAtIndex:myRow-1] objectAtIndex:myCol] valueForKey:@"status"].buildType] == Hallway) {
-            
-        //}
-    }
+
 }
 
 - (void) setRowCol:(int) row column: (int)col {

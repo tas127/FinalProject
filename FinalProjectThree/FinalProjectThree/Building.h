@@ -7,6 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "Global.h"
 
 typedef enum {
     None,
@@ -15,17 +16,24 @@ typedef enum {
     BasicOffice
 } TypeOfBuilding;
 
+typedef enum {
+    U,
+    R,
+    L,
+    D
+}Facing;
+
+
 @interface Building : SKSpriteNode {
     int myRow;
     int myCol;
 }
 
 @property (nonatomic, assign) TypeOfBuilding buildType;
-@property (nonatomic, assign) bool deskOne; //top left
-@property (nonatomic, assign) bool deskTwo; //top right
-@property (nonatomic, assign) bool deskThree; //bottom left
-@property (nonatomic, assign) bool deskFour; //bottom right
+
 
 @property (nonatomic, strong) NSMutableArray *grid; //set to the grid of the scene automatically
+@property (nonatomic, assign) Facing direction;
+@property (nonatomic, assign) int numWorkers;
 
 @end
