@@ -16,6 +16,8 @@
     if (self = [super initWithSize:size]) {
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
         
+        userDefaults = [NSUserDefaults standardUserDefaults];
+        
         NSInteger dollars = [userDefaults integerForKey:@"money"];
         //initialize all instance variables
         if(dollars) {
@@ -23,6 +25,7 @@
         } else {
             self.money = 100000;
         }
+        
         buildmenuup = NO;
         workermenuup = NO;
         xisup = NO;
@@ -31,14 +34,26 @@
         buildHallway = NO;
         buildBasicOffice = NO;
         destroyActivated = NO;
-        workerSelected = YES;
+        workerSelected = NO;
         
         [self setUpNode];
         
+        NSMutableArray *array = [userDefaults objectForKey:@"grid"];
+        /*if(array) {
+            [self loadBehindGrid];
+        } else {
+            [self setUpBehindGrid];
+        }*/
         [self setUpBehindGrid];
         
+        NSMutableArray *seen = [userDefaults objectForKey:@"nodes"];
+        /*if(seen) {
+            [self loadSeenGrid];
+        } else {
+            [self setUpSeenGrid];
+        }*/
         [self setUpSeenGrid];
-        
+
         [self setUpBottomBar];
         
         _gameClock = [NSTimer scheduledTimerWithTimeInterval:120.0 target:self selector:@selector(resetDay) userInfo:nil repeats:YES];
@@ -53,9 +68,6 @@
 
         //[_moneyLabel setHidden:YES];
         [self addChild:_moneyLabel];
-        
-        userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setInteger:self.money forKey:@"money"];
         
         //bool tut = [userDefaults boolForKey:@"tutorial"];
         
@@ -105,6 +117,7 @@
         //set background color - Grass Green for now - (124,252,0)
         //possibly editable later???
         self.backgroundColor = [SKColor colorWithRed:1 green:1 blue:1 alpha:1.0];
+        numWorkers = 0;
         
 }
     return self;
@@ -220,22 +233,45 @@
             [_swipeView addSubview:_cheatText];
         }*/
         
+        for(int row = 0; row < [_gridNodes count]; row ++) {
+            for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col ++) {
+                CGPoint point = CGPointMake(location.x-_node.position.x, location.y-_node.position.y);
+                SKSpriteNode *node = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
+                NSMutableDictionary *dictionary = [[_grid objectAtIndex:row] objectAtIndex:col];
+                Building *build = [dictionary objectForKey:@"status"];
+                if(CGRectContainsPoint(node.frame, point)) {
+                    NSLog([NSString stringWithFormat:@"Build Status: %u", [build buildType]]);
+                }
+            }
+        }
+        
         if(workerSelected) {
-            for(int row = 0; row < [_gridNodes count]; row ++) {
-                for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col ++) {
-                    CGPoint point = CGPointMake(location.x-_node.position.x, location.y-_node.position.y);
-                    NSMutableDictionary *dictionary = [[_grid objectAtIndex:row] objectAtIndex:col];
-                    SKSpriteNode *node = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
-                    if(CGRectContainsPoint(node.frame, point)) {
-                        Building *build = [dictionary objectForKey:@"status"];
-                        if([build buildType] == BasicOffice) {
-                            int curWorkers = [build numWorkers];
-                            if(curWorkers < 5) {
-                                Facing f = [build direction];
-                                SKTexture *texture;
-                                if(curWorkers == 0) {
-                                    [build setNumWorkers:1];
-                                    texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicOne"]];
+            if(self.money > 50) {
+                for(int row = 0; row < [_gridNodes count]; row ++) {
+                    for(int col = 0; col < [[_gridNodes objectAtIndex:row] count]; col ++) {
+                        CGPoint point = CGPointMake(location.x-_node.position.x, location.y-_node.position.y);
+                        NSMutableDictionary *dictionary = [[_grid objectAtIndex:row] objectAtIndex:col];
+                        SKSpriteNode *node = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
+                        if(CGRectContainsPoint(node.frame, point)) {
+                            Building *build = [dictionary objectForKey:@"status"];
+                            if([build buildType] == BasicOffice) {
+                                int curWorkers = [build numWorkers];
+                                if(curWorkers < 4) {
+                                    Facing f = [build direction];
+                                    SKTexture *texture;
+                                    if(curWorkers == 0) {
+                                        [build setNumWorkers:1];
+                                        texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicOne"]];
+                                    } else if (curWorkers == 1) {
+                                        [build setNumWorkers:2];
+                                        texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicTwo"]];
+                                    } else if (curWorkers == 2) {
+                                        [build setNumWorkers:3];
+                                        texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicThree"]];
+                                    } else if (curWorkers == 3) {
+                                        [build setNumWorkers:4];
+                                        texture = [SKTexture textureWithImage:[UIImage imageNamed:@"BasicFour"]];
+                                    }
                                     [node setTexture:texture];
                                     if (f == R) {
                                         [node setZRotation:(3*M_PI)/2];
@@ -244,9 +280,16 @@
                                     } else if (f == L) {
                                         [node setZRotation:M_PI/2.0];
                                     }
+                                    numWorkers ++;
+                                    workerSelected = NO;
+                                    self.money -= 50;
+                                    NSLog(@"Added a worker at (%d,%d)!", row, col);
+                                    //[userDefaults setObject:_grid forKey:@"grid"];
+                                    //[userDefaults setObject:_gridNodes forKey:@"nodes"];
+                                    [userDefaults synchronize];
+                                } else {
+                                    workerSelected = NO;
                                 }
-                            } else {
-                                workerSelected = NO;
                             }
                         }
                     }
@@ -260,6 +303,11 @@
                     NSMutableDictionary *dictionary = [[_grid objectAtIndex:row] objectAtIndex:col];
                     SKSpriteNode *node = [[_gridNodes objectAtIndex:row] objectAtIndex:col];
                     CGPoint point = CGPointMake(location.x - _node.position.x, location.y - _node.position.y);
+                    Building *buildCur = [dictionary objectForKey:@"status"];
+                    if([buildCur buildType] == BasicOffice) {
+                        int numCur = [buildCur numWorkers];
+                        numWorkers -= numCur;
+                    }
                     if(CGRectContainsPoint(node.frame, point)) {
                         NSNumber *b = [dictionary objectForKey:@"canBuild"];
                         if(!b.boolValue) {
@@ -291,7 +339,9 @@
                             [build setBuildType:None];
                             [dictionary setValue:build forKey:@"status"];
                             destroyActivated = NO;
-                            
+                            //[userDefaults setObject:_grid forKey:@"grid"];
+                            //[userDefaults setObject:_gridNodes forKey:@"nodes"];
+                            [userDefaults synchronize];
 
                         }
                     }
@@ -319,6 +369,9 @@
                                      [self reverseHallway];
                                      self.money -= 100;
                                     numHallways++;
+                                    //[userDefaults setObject:_grid forKey:@"grid"];
+                                    //[userDefaults setObject:_gridNodes forKey:@"nodes"];
+                                    [userDefaults synchronize];
                                 }
                             }
                         }
@@ -371,10 +424,14 @@
                                     }
                                     [node setTexture:texture];
                                     [dictionary setValue:NO forKey:@"canBuild"];
+                                    [dictionary setValue:build forKey:@"status"];
                                     NSLog(@"Placed a node at: (%d,%d)!",row,col);
                                     [self reverseBasicOffice];
                                     self.money -= 500;
                                     numOffices++;
+                                    //[userDefaults setObject:_grid forKey:@"grid"];
+                                    //[userDefaults setObject:_gridNodes forKey:@"nodes"];
+                                    [userDefaults synchronize];
                                 }
                             }
                         }
@@ -440,9 +497,9 @@
 
 - (void) updateMoney {
     //Depending on workers hired, quality of offices, etc, update money based on a certain timer to be set later
-    self.money += (numOffices * 4);
+    self.money += (numWorkers);
     [userDefaults setInteger:self.money forKey:@"money"];
-    [userDefaults synchronize];
+    bool success = [userDefaults synchronize];
 }
 
 - (void) setUpNode {
@@ -487,7 +544,11 @@
     /////////////////////
     // End behind grid //
     /////////////////////
-    
+    //[userDefaults setObject:_grid forKey:@"grid"];
+}
+
+- (void) loadBehindGrid {
+    self.grid = [userDefaults objectForKey:@"grid"];
 }
 
 - (void) setUpSeenGrid {
@@ -568,6 +629,54 @@
     
     nodeheight = 10 * scaledHeight;
     nodewidth = 10 * scaledWidth;
+}
+
+- (void) loadSeenGrid {
+    self.gridNodes = [userDefaults objectForKey:@"nodes"];
+    
+    //Initialize some useful constants:
+    double imageWidth = [[[self.gridNodes objectAtIndex:0] objectAtIndex:0] frame].size.width; //image width
+    double imageHeight = [[[self.gridNodes objectAtIndex:0] objectAtIndex:0] frame].size.height;
+    
+    //Calculate the scale so that 10 fit across the screen
+    double widthScreen = self.frame.size.width; //width of the screen
+    double ratio = imageWidth/widthScreen; //how many images can fit on the screen at the current size
+    double scale = .3/ratio; //make the scale so that 10 can fit across
+    
+    oldratio = .15/ratio;
+    oldratio *= imageHeight;
+    oldratio *= 10;
+    
+    //Scaled useful constants:
+    int scaledWidth = imageWidth * scale; // .15/ratio is the old
+    int scaledHeight = imageHeight * scale;
+    
+    //display the grid:
+    int positionX = scaledWidth * .5; //start the position x at the origin of the image
+    int positionY = self.frame.size.height - (scaledHeight * .5); //set the position y at the height minus the origin of the image
+    
+    //Set the correct positions and add the nodes to the screen
+    
+    for(int i = 0; i < 10; i ++) {
+        positionX = scaledWidth * .5; //reset position x to the origin of the image each time the row is incremented
+        
+        for(int k = 0; k < 10; k ++) {
+            SKSpriteNode *node = [[self.gridNodes objectAtIndex:i] objectAtIndex:k];
+            
+            [node setPosition:CGPointMake(positionX, positionY)]; //set the correct position
+            
+            [node setScale:scale];
+            
+            [_node addChild:node]; //add the image at position (k,i) in the array
+            
+            positionX += scaledWidth; //increment position x by the size of the image
+        }
+        positionY -= scaledHeight; //increment position y by the size of the image
+    }
+    
+    nodeheight = 10 * scaledHeight;
+    nodewidth = 10 * scaledWidth;
+
 }
 
 - (void) setUpBottomBar {
@@ -753,6 +862,20 @@
         }
     }
     return Here;
+}
+
+- (void) setWorkerTrue {
+    if(!workerSelected) {
+        workerSelected = YES;
+    }
+}
+
+- (BOOL) getHallway {
+    return buildHallway;
+}
+
+- (BOOL) getBasicOffice {
+    return buildBasicOffice;
 }
 
 @end

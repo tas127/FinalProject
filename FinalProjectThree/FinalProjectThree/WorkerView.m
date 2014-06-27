@@ -18,7 +18,7 @@
         // Initialization code
         [self setDelegate:self];
         [self setDataSource:self];
-        UIImage *happyface = [UIImage imageNamed:@"BasicWorker"];
+        UIImage *happyface = [UIImage imageNamed:@"WorkerImage"];
         /*
          * Name: name of the type of worker
          * money: the money they make per in-game hour
@@ -77,6 +77,26 @@
     [cell.imageOfWorker setImage:image];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    MyScene *scene = [Global initScene:CGSizeMake(1, 1)];
+    int cellnum = [indexPath row];
+    NSDictionary *dictionary = [workers objectAtIndex:cellnum];
+    NSString *name = [dictionary objectForKey:@"name"];
+    if([name isEqualToString:@"Basic Worker"]) {
+        if([scene getDestruction]) {
+            [scene reverseDestruction];
+        }
+        if([scene getHallway]) {
+            [scene reverseHallway];
+        }
+        if([scene getBasicOffice]) {
+            [scene reverseBasicOffice];
+        }
+        [scene setWorkerTrue];
+        [scene collapseTables];
+    }
 }
 
 /*

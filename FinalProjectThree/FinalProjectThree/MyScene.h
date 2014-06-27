@@ -57,6 +57,7 @@ typedef  enum {
     
     int numOffices;
     int numHallways;
+    int numWorkers;
     
 }
 
@@ -108,5 +109,7 @@ typedef  enum {
 -(Direction)directionToHallwayRow:(int)row Column:(int)col;
 - (BOOL) getDestruction;
 - (void) reverseDestruction;
-
+- (BOOL) getHallway;
+- (BOOL) getBasicOffice;
+-(void) setWorkerTrue;
 @end
